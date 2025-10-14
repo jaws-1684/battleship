@@ -1,6 +1,7 @@
 export class Ship {
-	constructor (length) {
-		this.length = length
+	constructor (type) {
+		this.types = { destroyer: 1, submarine: 2, cruiser: 3, carrier: 4 }
+		this.length = this.types[type]
 		this.hits = 0
 	}
 	hit() {
