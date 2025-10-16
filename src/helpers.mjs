@@ -18,13 +18,14 @@ export const h = (() => {
     }
 
     function validCoordinates(i, j) {
-        if (i > 9 || i < 0) {
-            return false
-        }
-        else if (j > 9 || j < 0) {
-            return false
-        }
-        return true
+        // if  {
+        //     return false
+        // }
+        // else if  {
+        //     return false
+        // }
+        // return true
+        return (i < 10 && i >= 0) && (j < 10 && j >= 0)
     }
 
     function adjacentEmpty(i, j, board=[] ) {
