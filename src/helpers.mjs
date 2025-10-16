@@ -55,21 +55,9 @@ export const h = (() => {
     }
     function validEndPoint(x, y, directionX, directionY, shipLength) {
         shipLength = shipLength - 1
-        let endX;
-        let endY;
-
-        if (directionX === 0) {
-            endX =  x;
-            endY = y + directionY * shipLength 
-        }
-        else {
-           endX =  x + directionX * shipLength
-           endY = y;
-        }
-        if (!validCoordinates(endX, endY)) {
-            return false
-        }
-        return true
+        let endX = directionX === 0 ? x : x + directionX * shipLength;
+        let endY = directionY === 0 ? y : y + directionY * shipLength 
+        return validCoordinates(endX, endY)
     }
 
     return {
