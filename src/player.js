@@ -1,8 +1,5 @@
-import { Ship } from "./ship.js"
-import { Gameboard } from "./gameboard.js"
-
 export class Player {
-	constructor(name, gameboard=new Gameboard()) {
+	constructor(name, gameboard) {
 		this.name = name
 		this.gameboard = gameboard
 		this.board = gameboard.board
@@ -13,5 +10,11 @@ export class Player {
 	}
 	set ships(ships) {
 		this._ships = ships
+	}
+	get opponent() {
+		return this._opponent
+	}
+	set opponent(opponent) {
+		this._opponent = opponent
 	}
 }
