@@ -1,7 +1,6 @@
 export class Ship {
-	constructor (type) {
-		this.types = { destroyer: 1, submarine: 2, cruiser: 3, carrier: 4 }
-		this.length = this.types[type]
+	constructor (length) {
+		this.length = length
 		this.hits = 0
 	}
 	hit() {
@@ -9,5 +8,17 @@ export class Ship {
 	}
 	isSunk() {
 		return this.hits === this.length
+	}
+	get location() {
+		return this._location
+	}
+	set location(location){
+		this._location = location
+	}
+	get direction() {
+		return this._direction
+	}
+	set direction(direction){
+		this._direction = direction
 	}
 }

@@ -9,9 +9,10 @@ export const Grid = ((doc) => {
 			for (let j = 0; j < array[i].length; j++) {
 				let content = array[i][j]
 				let col = doc.createElement("div")
+
 				col.setAttribute("data-x", i)
 				col.setAttribute("data-y", j)
-				addColTags(col, content)
+				addTag(col, content)
 
 				row.append(col)
 			}
@@ -19,7 +20,7 @@ export const Grid = ((doc) => {
 		}
 		return grid
 	}
-	const addColTags = (col, data) => {
+	const addTag = (col, data) => {
 		col.classList.add("col", "cell")
 
 		switch (data) {

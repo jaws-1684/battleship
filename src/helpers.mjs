@@ -18,13 +18,6 @@ export const h = (() => {
     }
 
     function validCoordinates(i, j) {
-        // if  {
-        //     return false
-        // }
-        // else if  {
-        //     return false
-        // }
-        // return true
         return (i < 10 && i >= 0) && (j < 10 && j >= 0)
     }
 

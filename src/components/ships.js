@@ -12,15 +12,15 @@ export const Ships = (() => {
 				let direction = ship.direction
 
 				if (i === 0) {
-					addShipTag(grid, pos, direction,"head")
+					addTag(grid, pos, direction,"head")
 				} else if (i === location.length - 1) {
-					addShipTag(grid, pos, direction,"tail")
+					addTag(grid, pos, direction,"tail")
 				}
-				addShipTag(grid, pos, direction)
+				addTag(grid, pos, direction)
 			}
 		}
 	}
-	const addShipTag = (grid, location, direction, attr="body") => {
+	const addTag = (grid, location, direction, attr="body") => {
 		let [x, y] = location
 		let rows = Array.from(grid.children)
 		let cells =  Array.from(rows[x].children)
