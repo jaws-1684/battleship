@@ -9,12 +9,15 @@ export const DOM = ((doc => {
 
 	const render = (attributes, ...gameboards) => {
 		let attr = attributes.split("-")
-		console.log(attr)
 		let i = 0
+		
+
 		gameboards.forEach(gameboard => {
 			renderBoard(gameboard, attr[i])
 			i++
+
 		})
+		addPanel()
 	}
 	const renderBoard = (gameboard, type) => {
 		let board = gameboard.board
@@ -43,6 +46,29 @@ export const DOM = ((doc => {
 	}
 	const hideCourtain = () => {
 		passDeviceScreen.classList.toggle("hidden")
+	}
+	const addPanel = () => {
+		let panel = doc.createElement("div")
+		panel.innerHTML = `
+            <form>
+                <fieldset>
+                    <legend>Opponent</legend>
+                    <div>
+                        <input type="radio" id="computer" name="player" value="computer" />
+                        <label for="computer">Computer</label>
+
+                        <input type="radio" id="friend" name="player" value="friend" />
+                        <label for="friend">Friend</label>
+
+                    </div>
+
+                    <div>
+                        <button type="submit">Play</button>
+                    </div>
+                </fieldset>
+            </form>`
+		panel.setAttribute("class", "start-game")
+		game.querySelectorAll(".battlefield_container")[1].append(panel)
 	}
 	
 
