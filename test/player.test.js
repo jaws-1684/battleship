@@ -1,8 +1,8 @@
-import { Player } from "../src/player.js"
+import Player from "../src/models/player.js"
 
 describe("Player class", () => {
-  it("initializes with an injected board", () => {
+  it("initializes with a name", () => {
     let player = new Player("spongebob")
-    expect(player.gameboard.board.length).toBe(10)
+    expect(player.name).toBe("spongebob")
   })
 })
