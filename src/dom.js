@@ -10,20 +10,19 @@ export const DOM = ((doc => {
 	const render = (attributes, ...gameboards) => {
 		let attr = attributes.split("-")
 		let i = 0
-		
-
+	
 		gameboards.forEach(gameboard => {
-			renderBoard(gameboard, attr[i])
+			game.append(buildBoard(gameboard, attr[i]))
 			i++
-
 		})
-		addPanel()
 	}
-	const renderBoard = (gameboard, type) => {
+
+	const buildBoard = (gameboard, type) =>{
 		let board = gameboard.board
 		let ships = Object.values(gameboard.ships)
 
 		let container = doc.createElement("div")
+		
 		container.setAttribute("class", `battlefield_container`)
 		Header.col(container)
 		Header.row(container)
@@ -32,10 +31,23 @@ export const DOM = ((doc => {
 		Ships.place(ships, grid, type)
 		
 		container.append(grid)
-		game.append(container)
+		let desp = document.createElement("p")
+		desp.textContent = type === "self" ? "Your board" : "Opponent's board"
+		desp.classList.add("desp")
+		container.append(desp)
+		return container
+	}
+	const clearAndPrepend = (gameboard, type="self") => {
+		let self = doc.querySelectorAll(".battlefield_container")[0]
+		self.remove()
+		game.prepend(buildBoard(gameboard, type))
 	}
 	const clear = (attr) => {
 		doc.querySelector(attr).textContent = ""
+	}
+	const message = (str) => {
+		let block = doc.querySelector(".messages")
+		block.textContent = str
 	}
 	const showCourtain = () => {
 		passDeviceScreen.classList.toggle("hidden")
@@ -54,7 +66,7 @@ export const DOM = ((doc => {
                 <fieldset>
                     <legend>Opponent</legend>
                     <div>
-                        <input type="radio" id="computer" name="player" value="computer" />
+                        <input type="radio" id="computer" name="player" value="computer" checked/>
                         <label for="computer">Computer</label>
 
                         <input type="radio" id="friend" name="player" value="friend" />
@@ -63,14 +75,16 @@ export const DOM = ((doc => {
                     </div>
 
                     <div>
-                        <button type="submit">Play</button>
+                        <button type="button" id="startGame">Play</button>
                     </div>
                 </fieldset>
             </form>`
 		panel.setAttribute("class", "start-game")
-		game.querySelectorAll(".battlefield_container")[1].append(panel)
+		if (!doc.querySelector(".start-game")) {
+			game.querySelectorAll(".battlefield_container")[1].append(panel)
+		}
+		
 	}
-	
 
-	return { render, clear, showCourtain, hideCourtain }
+	return { render, clear, showCourtain, hideCourtain, addPanel, message, clearAndPrepend }
 }))(document)

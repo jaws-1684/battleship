@@ -12,6 +12,9 @@ export class Gameboard {
 	receiveAttack(x, y) {
 		let code = this.board[x][y]
 		let ship = this.ships["ship_" + code]
+		if (code === "hit" || code === "missed-hit") {
+			return "target-twice"
+		}
 
 		if (ship) {
 			ship.hit()
@@ -31,7 +34,7 @@ export class Gameboard {
 
 	place(coordinates, ship) {
 		let code = crypto.randomUUID()
-  	this.ships["ship_" + code] = ship;
+  	this.ships[code] = ship;
   	ship.location = coordinates
 
 		for(let coordinate of coordinates) {

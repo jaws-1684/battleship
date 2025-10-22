@@ -24,6 +24,7 @@ export const Ships = (() => {
 		let [x, y] = location
 		let rows = Array.from(grid.children)
 		let cells =  Array.from(rows[x].children)
+		cells[y].setAttribute("drag", "true")
 		switch (direction) {
 					case "horizontal":
 						cells[y].classList.add(`horizontal-${attr}`)

@@ -53,6 +53,9 @@ export const h = (() => {
         let endY = directionY === 0 ? y : y + directionY * shipLength 
         return validCoordinates(endX, endY)
     }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     return {
       randomPoint,
@@ -61,7 +64,8 @@ export const h = (() => {
       adjacentEmpty,
       randomDirX,
       randomDirY,
-      validEndPoint
+      validEndPoint,
+      sleep
     }
 
 })()
