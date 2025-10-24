@@ -1,9 +1,9 @@
 import Player from "./player.js"
-import { h } from "./helpers//helpers.mjs"
+import { h } from "../helpers/helpers.js"
 
 class Computer extends Player {
-	constructor (name, gameboard) {
-		super(name, gameboard)
+	constructor (name) {
+		super(name)
 		this.missedHits = {}
 		this.hits = {}
 		this.hotPoints = []
@@ -33,10 +33,6 @@ class Computer extends Player {
 		} else {
 			this.missedHits[point] = true
 		} 
-
-		
-
-
 		return attack
 	}
 	freePoint(point) {

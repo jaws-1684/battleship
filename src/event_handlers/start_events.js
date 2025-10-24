@@ -19,7 +19,6 @@ export const StartEvents = (() => {
       }
     }
     EventBus.emit("randomise-off")
-    EventBus.emit("reset-on")
     EventBus.emit("start", selectedPlayer) 
     unmount()  
   }
@@ -27,10 +26,11 @@ export const StartEvents = (() => {
     el = document.querySelector("#startGame")
     panel = document.querySelector(".start-game")
     radioButtons = document.querySelectorAll('input[name="player"]');
+    panel.classList.remove("hidden")
     el.addEventListener("click", handler)
   }
   const unmount = () => {
-    panel.remove()
+    panel.classList.add("hidden")
     el.removeEventListener("click", handler)
   }
 })()

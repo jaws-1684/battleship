@@ -1,4 +1,4 @@
-import { h } from "./helpers//helpers.mjs"
+import { h } from "../helpers/helpers.js"
 
 class Gameboard {
 	constructor() {
@@ -10,8 +10,11 @@ class Gameboard {
 		}
 	}
 	receiveAttack(x, y) {
+		if (!h.validCoordinates(x, y)) {
+			throw new Error("Not a valid position")
+		}
 		let code = this.board[x][y]
-		let ship = this.ships["ship_" + code]
+		let ship = this.ships[code]
 		if (code === "hit" || code === "missed-hit") {
 			return "target-twice"
 		}
@@ -33,13 +36,23 @@ class Gameboard {
 	}
 
 	place(coordinates, ship) {
+		let valid = coordinates.every(([x, y]) => this.board[x][y] === null)
+
+		if (!valid) {
+			throw new Error("Not valid coordinates")
+		}
+
 		let code = crypto.randomUUID()
   	this.ships[code] = ship;
   	ship.location = coordinates
-
-		for(let coordinate of coordinates) {
-			let [x, y] = coordinate
+  	
+		for(let [x, y] of coordinates) {
 			this.board[x][y] = code
+		}
+	}
+	clear(oldPosition) {
+		for (let [x, y] of oldPosition) {
+			this.board[x][y] = null
 		}
 	}
 

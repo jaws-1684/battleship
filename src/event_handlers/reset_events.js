@@ -1,14 +1,14 @@
 import { EventBus } from "../event_bus.js"
 
-export const RandomiseEvents = (() => {
-	EventBus.subscribe("randomise-on", () => mount())
-	EventBus.subscribe("randomise-off", () => unmount())
+export const ResetEvents = (() => {
+	EventBus.subscribe("reset-on", () => mount())
+	EventBus.subscribe("reset-off", () => unmount())
 	
 
-	let el = document.querySelector("#randomise")
+		let el = document.querySelector("#reset")
 
 	const handler = (e) => {
-		EventBus.emit("randomise")
+		EventBus.emit("reset")
 	}
 	const mount = () => {
 		el.classList.remove("hidden")
