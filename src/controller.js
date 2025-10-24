@@ -130,14 +130,23 @@ export class Controller {
 	      	EventBus.emit("set-data", { len, dir, shipId })
 	      }
 			},
+			dragOver: (cells) => {
+				if (this.current_player.gameboard.validPlace(cells)) {
+					EventBus.emit("color", "lightgreen")
+				} else {
+					EventBus.emit("color", "red")
+				}
+			},
 			dropReplace: async ({ id, newLocation }) => {
 				let ship = this.current_player.gameboard.ships[id]
-				let oldPosition = ship.location
-				ship.location = newLocation
-				this.current_player.gameboard.place(ship.location, ship)
-				this.current_player.gameboard.clear(oldPosition)
-				_.prepend("board", { gameboard: this.current_player.gameboard})
-				this.events("restart", this.dragNdropEvents)
+				if (this.current_player.gameboard.place(newLocation, ship)) {
+					let oldPosition = ship.location
+					ship.location = newLocation
+					this.current_player.gameboard.clear(oldPosition)
+					_.prepend("board", { gameboard: this.current_player.gameboard})
+					this.events("restart", this.dragNdropEvents)
+				}
+				
 			}
 		}
 	}

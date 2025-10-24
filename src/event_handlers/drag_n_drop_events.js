@@ -6,8 +6,10 @@ export const DragactiveCells = (() => {
 	let direction;
 	let id;
 	let activeCells = [];
+	let color;
 
 	EventBus.subscribe("dragDrop-on", () => mount())
+	EventBus.subscribe("color", (c) => color = c) 
 	EventBus.subscribe("dragDrop-off", () => {
 		unmount()
 	})
@@ -49,9 +51,11 @@ export const DragactiveCells = (() => {
 				break
 			default:
 				let cell = target
-				cell.style.cssText = "border: 1px solid red;"
 				activeCells.push(cell)
 		}
+		let coordinates = activeCells.map(cell => evh.parseCoordinates(cell))
+		EventBus.emit("dragOver", coordinates)
+		activeCells.forEach(cell => cell.style.cssText = `border: 2px solid ${color}`)
 	}
 	const drop = (e) => {
 		e.preventDefault();
@@ -62,7 +66,6 @@ export const DragactiveCells = (() => {
 		activeCells.forEach(cell => {
 			newLocation.push(evh.parseCoordinates(cell))
 		})
-		validateCells()
 		EventBus.emit("dropReplace", { id, newLocation })
 	}
 
@@ -90,12 +93,6 @@ export const DragactiveCells = (() => {
 			cell.style.cssText = ""
 		}
   }
-  const validateCells = () => {
-  		while (activeCells.length > 0) {
-			let cell = activeCells.shift()
-			cell.style.cssText = "border: 1px solid green"
-		}
-  }
   const calculateHorizontalPos = (parentNode, x, y) => {
   	let rows = Array.from(parentNode.children)
   	let cells = Array.from(rows[x].children)
@@ -109,7 +106,6 @@ export const DragactiveCells = (() => {
 				clearCells()
 				break
 			}
-			cell.style.cssText = "border: 1px solid red;"
 			activeCells.push(cell)
 		}	
   }
@@ -126,7 +122,6 @@ export const DragactiveCells = (() => {
 				clearCells()
 				break
 			}
-			cell.style.cssText = "border: 1px solid red;"
 			activeCells.push(cell)
 		}	
   }

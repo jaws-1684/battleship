@@ -11,7 +11,7 @@ class Gameboard {
 	}
 	receiveAttack(x, y) {
 		if (!h.validCoordinates(x, y)) {
-			throw new Error("Not a valid position")
+			return
 		}
 		let code = this.board[x][y]
 		let ship = this.ships[code]
@@ -36,10 +36,8 @@ class Gameboard {
 	}
 
 	place(coordinates, ship) {
-		let valid = coordinates.every(([x, y]) => this.board[x][y] === null)
-
-		if (!valid) {
-			throw new Error("Not valid coordinates")
+		if (!this.validPlace(coordinates)) {
+			return false
 		}
 
 		let code = crypto.randomUUID()
@@ -49,7 +47,17 @@ class Gameboard {
 		for(let [x, y] of coordinates) {
 			this.board[x][y] = code
 		}
+		return true
 	}
+	validPlace(coordinates) {
+		for (let [x, y] of coordinates) {
+			if (!h.adjacentEmpty(x, y, this.board) || this.board[x][y] !== null) {
+				return false
+			}
+		}
+		return true
+	}
+
 	clear(oldPosition) {
 		for (let [x, y] of oldPosition) {
 			this.board[x][y] = null
