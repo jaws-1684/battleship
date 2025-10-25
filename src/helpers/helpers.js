@@ -56,7 +56,15 @@ export const h = (() => {
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
+    function getShip(point, gameboard) {
+        let [x,y] = point
+        let shipId = gameboard.board[x][y]
+        let ship = gameboard.ships[shipId]
+        return ship
+    }
+    function getShipById(id, gameboard) {
+        return gameboard.ships[id]
+    }
     return {
       randomPoint,
       validCoordinates,
@@ -65,7 +73,9 @@ export const h = (() => {
       randomDirX,
       randomDirY,
       validEndPoint,
-      sleep
+      sleep,
+      getShip,
+      getShipById
     }
 
 })()

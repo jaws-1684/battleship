@@ -1,7 +1,7 @@
 import "./styles.css";
 
-import { Controller } from "./controller.js"
+import { Battleship } from "./battleship.js"
 
-let game = new Controller("axis", "computer")
+let game = new Battleship("axis", "computer")
 
 game.init()

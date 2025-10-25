@@ -9,7 +9,11 @@ export const _ = {
 				Game.render(gameboards)
 				break
 			case "panel":
-				DOM.addPanel()	
+				DOM.addPanel()
+				break
+			case "fight":
+				DOM.addFightPanel()
+				break		
 		}	
 	},
 	message: (str) => {

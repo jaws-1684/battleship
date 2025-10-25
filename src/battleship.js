@@ -7,8 +7,10 @@ import { StartEvents } from "./event_handlers/start_events.js"
 import { AttackEvents } from "./event_handlers/attack_events.js"
 import { ResetEvents } from "./event_handlers/reset_events.js"
 import { DragNdropEvents } from "./event_handlers/drag_n_drop_events.js"
+import { RotateEvents } from "./event_handlers/rotate_events.js"
+import { ReadyEvents } from "./event_handlers/ready_events.js"
 
-export class Controller {
+export class Battleship {
 	constructor (player1name, player2name) {
 		this.setPlayers(player1name, player2name)
 		this.setOpponents(this.player1, this.player2)
@@ -16,6 +18,11 @@ export class Controller {
 		this.setInitEventResposes()
 		this.setDragnDropEventResponses()
 		this.setGameEventResponses()
+		this.setRotateEventResponses()
+		this.setRandomiseEventResponses()
+
+		this.initEvts = [this.startEvents, this.dragNdropEvents, this.rotateEvents, this.randomiseEvents]
+		this.shipEvts = [this.dragNdropEvents, this.rotateEvents]
 	}
 
 	init() {
@@ -23,14 +30,14 @@ export class Controller {
 		this.placeShips(this.player1, this.player2)
 		_.render("game", { current_player: this.current_player })
 		_.render("panel")
-		this.events("on", this.initEvents, this.dragNdropEvents)
+		this.events("on", ...this.initEvts)
 	}
 	update() {
 		this.placeShips(this.current_player)
 		_.prepend("board", { gameboard: this.current_player.gameboard})
 	}
 	start() {
-		this.events("off", this.initEvents)
+		this.events("off", ...this.initEvts)
 		this.events("on", this.gameEvents)
 	}
 	
@@ -103,30 +110,60 @@ export class Controller {
 		}
 	}
 	setInitEventResposes() {
-			this.initEvents = {
-			randomise: () => {
-				this.current_player.gameboard = new Model.Gameboard()
-				this.update()
-				this.events("restart", this.dragNdropEvents)
-			},
-			start: (secondPlayer) => {
-				if (secondPlayer == "friend") {
-  				this.setPlayer("friend")
-  			}
-  			this.start()        
-			},
+		this.startEvents = {
+		start: (secondPlayer) => {
+			if (secondPlayer == "friend") {
+				this.setPlayer("friend")
+				this.switchPlayer()
+				_.show("courtain")
+				_.render("game", { current_player: this.current_player })
+				_.render("fight")
+				EventBus.emit("ready-on")
+				this.events("restart", this.randomiseEvents, this.dragNdropEvents, this.rotateEvents)
+				EventBus.subscribe("ready", () => {
+					_.render("game", { current_player: this.current_player })
+					this.events("off", this.dragNdropEvents, this.rotateEvents, this.randomiseEvents)
+					this.events("on", this.gameEvents)
+				})
+				return
+			}
+			this.start()        
 		}
 	}
+}
+	setRandomiseEventResponses() {
+		this.randomiseEvents = {
+				randomise: () => {
+				this.current_player.gameboard = new Model.Gameboard()
+				this.update()
+				this.events("restart", ...this.shipEvts)
+			}
+		}
+	}
+	setRotateEventResponses() {
+		this.rotateEvents = { 
+			rotate: (point) => {
+				let ship = h.getShip(point, this.current_player.gameboard)
+		    if (ship instanceof Model.Ship && this.current_player.gameboard.rotateShip(ship.id, point)) {
+					_.prepend("board", { gameboard: this.current_player.gameboard})
+					this.events("restart", ...this.shipEvts)
+		    }
+			}
+		}
+	}
+
 	setDragnDropEventResponses() {
 		this.dragNdropEvents = {
 			dragDrop: () => {},
 			dragPoint: (point) => {
-				let [x,y] = point
-				let shipId = this.current_player.board[x][y]
-      	let ship = this.current_player.gameboard.ships[shipId]
+				let ship = h.getShip(point, this.current_player.gameboard)
+
 	      if (ship instanceof Model.Ship) {
 	      	let len = Number(ship.length)
 	      	let dir = ship.direction
+	      	let shipId = ship.id
+					this.current_player.gameboard.clear(ship.location)
+
 	      	EventBus.emit("set-data", { len, dir, shipId })
 	      }
 			},
@@ -138,15 +175,16 @@ export class Controller {
 				}
 			},
 			dropReplace: async ({ id, newLocation }) => {
-				let ship = this.current_player.gameboard.ships[id]
-				if (this.current_player.gameboard.place(newLocation, ship)) {
-					let oldPosition = ship.location
-					ship.location = newLocation
-					this.current_player.gameboard.clear(oldPosition)
-					_.prepend("board", { gameboard: this.current_player.gameboard})
-					this.events("restart", this.dragNdropEvents)
-				}
+				let ship = h.getShipById(id, this.current_player.gameboard)
+				let oldLocation = ship.location
 				
+				if (this.current_player.gameboard.place(newLocation, ship)) {
+					ship.location = newLocation
+					_.prepend("board", { gameboard: this.current_player.gameboard})
+					this.events("restart", ...this.shipEvts)
+				} else {
+					this.current_player.gameboard.place(oldLocation, ship)
+				}
 			}
 		}
 	}
@@ -160,7 +198,7 @@ export class Controller {
 				_.render("game", { current_player: this.current_player })
 			},
 			reset: () => {
-				this.events("off", this.initEvents, this.gameEvents, this.dragNdropEvents)
+				this.events("off", this.gameEvents)
 				this.setPlayers("axis", "computer")
 				this.setOpponents(this.player1, this.player2)
 				this.init()

@@ -1,7 +1,10 @@
 export const evh = (() => {
 	const validTarget = (target) => {
-		let battlefield_opponent = target.parentElement.parentElement.classList.contains("battlefield_opponent")
-		return battlefield_opponent 
+		try {
+			let battlefield_opponent = target.parentElement.parentElement.classList.contains("battlefield_opponent")
+			return battlefield_opponent 
+		} catch (e) {
+		}
 	}
 	const parseCoordinates = (target) => {
 		let x = target.getAttribute("data-x")

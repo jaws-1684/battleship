@@ -29,6 +29,44 @@ class Gameboard {
 			return "missed-hit"
 		}
 	}
+	rotateShip(shipId, point) {
+		let ship = this.ships[shipId]
+		let shipDirection = ship.direction
+		let location = ship.location.toSorted()
+		if (location.length <= 1) return
+
+		let possiblePositions = {
+			"up": [],
+			"down": [],
+			"left": [],
+			"right": []
+		}
+		this.clear(ship.location)
+		let [headX, headY] = (point > location[0]) ? location[location.length - 1] : location[0]
+
+		for (let i = 0; i < location.length; i++) {
+			if (shipDirection === "horizontal") {
+				possiblePositions["down"].push([headX - i, headY])
+				possiblePositions["up"].push([headX + i, headY])
+			} else if (shipDirection === "vertical") {
+				possiblePositions["right"].push([headX, headY + i])
+				possiblePositions["left"].push([headX, headY - i])
+			}
+		}
+		for (let coordinates of Object.values(possiblePositions)) {
+			if (!Array.isArray(coordinates) || !coordinates.length) {
+ 				continue
+			}
+			if (this.validPlace(coordinates)) {
+				ship.direction = shipDirection === "horizontal" ? "vertical" : "horizontal"  
+				this.clear(ship.location)
+				this.place(coordinates, ship)
+				return true
+			}
+		}
+		this.place(location, ship)
+		return false
+	}
 
 	allSunk() {
 		let ships = Object.values(this.ships)
@@ -39,9 +77,15 @@ class Gameboard {
 		if (!this.validPlace(coordinates)) {
 			return false
 		}
-
-		let code = crypto.randomUUID()
+		let code;
+		if (this.ships[ship.id]) {
+			code = ship.id
+		} else {
+			code = crypto.randomUUID()
+		}
+		
   	this.ships[code] = ship;
+  	ship.id = code
   	ship.location = coordinates
   	
 		for(let [x, y] of coordinates) {
@@ -51,7 +95,7 @@ class Gameboard {
 	}
 	validPlace(coordinates) {
 		for (let [x, y] of coordinates) {
-			if (!h.adjacentEmpty(x, y, this.board) || this.board[x][y] !== null) {
+			if (!h.validCoordinates(x, y) || !h.adjacentEmpty(x, y, this.board) || this.board[x][y] !== null) {
 				return false
 			}
 		}

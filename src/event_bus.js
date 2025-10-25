@@ -9,7 +9,6 @@ export class EventBus {
   }
 
   static subscribe (eventName, fn) {
-     console.log(this.events)
     this.events[eventName] = this.events[eventName] || [];
     this.events[eventName].push(fn)
   }

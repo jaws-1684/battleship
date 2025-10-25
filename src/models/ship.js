@@ -21,8 +21,11 @@ class Ship {
 	set direction(direction){
 		this._direction = direction
 	}
-	rotate() {
-		this._location = this.location.map(([x, y]) => [y, x])
+	set id(id){
+		this._id = id
+	}
+	get id(){
+		return this._id
 	}
 }
 

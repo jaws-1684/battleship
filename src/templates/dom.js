@@ -47,6 +47,21 @@ export const DOM = ((doc => {
 		}
 		
 	}
+	const addFightPanel = () => {
+		let panel = doc.createElement("div")
+		panel.innerHTML = `
+            <form>
+                <fieldset>
+                    <div>
+                        <button type="button" id="ready">I am ready!</button>
+                    </div>
+                </fieldset>
+            </form>`
+		panel.classList.add("ready-game")
+		if (!doc.querySelector(".ready-game")) {
+			game.querySelectorAll(".battlefield_container")[1].append(panel)
+		}
+	}
 
-	return { clear, showCourtain, hideCourtain, addPanel, message }
+	return { clear, showCourtain, hideCourtain, addPanel, message, addFightPanel }
 }))(document)

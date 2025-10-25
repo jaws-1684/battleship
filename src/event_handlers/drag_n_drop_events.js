@@ -82,7 +82,7 @@ export const DragactiveCells = (() => {
 	}
 	const unmount = () => {
 		activeCells = []
-		Object.keys(listeners).forEach(key => el.addEventListener(key, listeners[key]))
+		Object.keys(listeners).forEach(key => el.removeEventListener(key, listeners[key]))
 	}
 	const validCoordinates = (i, j) => {
     return (i < 10 && i >= 0) && (j < 10 && j >= 0)

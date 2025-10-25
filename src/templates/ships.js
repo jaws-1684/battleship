@@ -25,6 +25,7 @@ export const Ships = (() => {
 		let rows = Array.from(grid.children)
 		let cells =  Array.from(rows[x].children)
 		cells[y].setAttribute("drag", "true")
+		cells[y].classList.add("rotatable")
 		switch (direction) {
 					case "horizontal":
 						cells[y].classList.add(`horizontal-${attr}`)
