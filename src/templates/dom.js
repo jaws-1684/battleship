@@ -1,29 +1,30 @@
-
-
-export const DOM = ((doc => {
-	const game = doc.querySelector(".game")
-	const passDeviceScreen = doc.querySelector(".pass-device")
-	const counter = passDeviceScreen.querySelector(".time")
-	const clear = (attr) => {
-		doc.querySelector(attr).textContent = ""
-	}
-	const message = (str) => {
-		let block = doc.querySelector(".messages")
-		block.textContent = str
-	}
-	const showCourtain = () => {
-		passDeviceScreen.classList.toggle("hidden")
-		counter.textContent = "."
-		for (let i = 1; i < 10; i++) {
-			setTimeout(() => counter.textContent = counter.textContent + ".", 1000 * i)
-		}
-	}
-	const hideCourtain = () => {
-		passDeviceScreen.classList.toggle("hidden")
-	}
-	const addPanel = () => {
-		let panel = doc.createElement("div")
-		panel.innerHTML = `
+export const DOM = ((doc) => {
+  const game = doc.querySelector(".game");
+  const passDeviceScreen = doc.querySelector(".pass-device");
+  const counter = passDeviceScreen.querySelector(".time");
+  const clear = (attr) => {
+    doc.querySelector(attr).textContent = "";
+  };
+  const message = (str) => {
+    let block = doc.querySelector(".messages");
+    block.textContent = str;
+  };
+  const showCourtain = () => {
+    passDeviceScreen.classList.toggle("hidden");
+    counter.textContent = ".";
+    for (let i = 1; i < 10; i++) {
+      setTimeout(
+        () => (counter.textContent = counter.textContent + "."),
+        1000 * i,
+      );
+    }
+  };
+  const hideCourtain = () => {
+    passDeviceScreen.classList.toggle("hidden");
+  };
+  const addPanel = () => {
+    let panel = doc.createElement("div");
+    panel.innerHTML = `
             <form>
                 <fieldset>
                     <legend>Opponent</legend>
@@ -40,31 +41,37 @@ export const DOM = ((doc => {
                         <button type="button" id="startGame">Play</button>
                     </div>
                 </fieldset>
-            </form>`
-		panel.classList.add("start-game", "hidden")
-		if (!doc.querySelector(".start-game")) {
-			game.querySelectorAll(".battlefield_container")[1].append(panel)
-		} else {
-			doc.querySelector(".start-game").textContent = ""
-			game.querySelectorAll(".battlefield_container")[1].append(panel)
-		}
-		
-	}
-	const addFightPanel = () => {
-		let panel = doc.createElement("div")
-		panel.innerHTML = `
+            </form>`;
+    panel.classList.add("start-game", "hidden");
+    if (!doc.querySelector(".start-game")) {
+      game.querySelectorAll(".battlefield_container")[1].append(panel);
+    } else {
+      doc.querySelector(".start-game").textContent = "";
+      game.querySelectorAll(".battlefield_container")[1].append(panel);
+    }
+  };
+  const addFightPanel = () => {
+    let panel = doc.createElement("div");
+    panel.innerHTML = `
             <form>
                 <fieldset>
                     <div>
                         <button type="button" id="ready">I am ready!</button>
                     </div>
                 </fieldset>
-            </form>`
-		panel.classList.add("ready-game")
-		if (!doc.querySelector(".ready-game")) {
-			game.querySelectorAll(".battlefield_container")[1].append(panel)
-		}
-	}
+            </form>`;
+    panel.classList.add("ready-game");
+    if (!doc.querySelector(".ready-game")) {
+      game.querySelectorAll(".battlefield_container")[1].append(panel);
+    }
+  };
 
-	return { clear, showCourtain, hideCourtain, addPanel, message, addFightPanel }
-}))(document)
+  return {
+    clear,
+    showCourtain,
+    hideCourtain,
+    addPanel,
+    message,
+    addFightPanel,
+  };
+})(document);

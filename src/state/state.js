@@ -1,8 +1,8 @@
-import InitState from "./init_state.js"
-import RunState from "./run_state.js"
+import InitState from "./init_state.js";
+import RunState from "./run_state.js";
 
-let State = {}
-State.Init = InitState
-State.Run = RunState
+let State = {};
+State.Init = InitState;
+State.Run = RunState;
 
-export { State }
+export { State };
