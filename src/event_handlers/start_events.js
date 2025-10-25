@@ -18,7 +18,6 @@ const StartEvents = (() => {
           break;
       }
     }
-    EventBus.emit("randomise-off")
     EventBus.emit("start", selectedPlayer) 
     unmount()  
   }

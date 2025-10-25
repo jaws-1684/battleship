@@ -28,4 +28,27 @@ export class EventBus {
   static show () {
     console.log(this.events)
   }
+
+  static bulk(action, ...eventNames) {
+    let evts = Object.assign({}, ...eventNames)
+
+    for (let [key, value] of Object.entries(evts)) {
+      switch (action) {
+        case "subscribe":
+          EventBus.emit(key + "-on")
+          EventBus.subscribe(key, value)
+          break
+        case "unsubscribe":
+          EventBus.emit(key + "-off")
+          EventBus.unsubscribe(key, value)
+          break
+        case "restart":
+          EventBus.emit(key + "-off")
+          EventBus.unsubscribe(key, value)
+          EventBus.emit(key + "-on") 
+          EventBus.subscribe(key, value)
+          break        
+      }
+    }
+  }
 }

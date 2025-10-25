@@ -44,6 +44,9 @@ export const DOM = ((doc => {
 		panel.classList.add("start-game", "hidden")
 		if (!doc.querySelector(".start-game")) {
 			game.querySelectorAll(".battlefield_container")[1].append(panel)
+		} else {
+			doc.querySelector(".start-game").textContent = ""
+			game.querySelectorAll(".battlefield_container")[1].append(panel)
 		}
 		
 	}

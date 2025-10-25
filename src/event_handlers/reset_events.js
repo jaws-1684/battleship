@@ -5,7 +5,7 @@ const ResetEvents = (() => {
 	EventBus.subscribe("reset-off", () => unmount())
 	
 
-		let el = document.querySelector("#reset")
+	let el = document.querySelector("#reset")
 
 	const handler = (e) => {
 		EventBus.emit("reset")
