@@ -2,13 +2,7 @@ import { Model } from "./models/model.js"
 import { EventBus } from "./event_bus.js"
 import { _ } from "./helpers/underscore.js"
 import { h } from "./helpers/helpers.js"
-import { RandomiseEvents } from "./event_handlers/randomise_events.js"
-import { StartEvents } from "./event_handlers/start_events.js"
-import { AttackEvents } from "./event_handlers/attack_events.js"
-import { ResetEvents } from "./event_handlers/reset_events.js"
-import { DragNdropEvents } from "./event_handlers/drag_n_drop_events.js"
-import { RotateEvents } from "./event_handlers/rotate_events.js"
-import { ReadyEvents } from "./event_handlers/ready_events.js"
+import { EventHandler } from "./event_handlers/event_handler.js"
 
 export class Battleship {
 	constructor (player1name, player2name) {
@@ -154,8 +148,7 @@ export class Battleship {
 
 	setDragnDropEventResponses() {
 		this.dragNdropEvents = {
-			dragDrop: () => {},
-			dragPoint: (point) => {
+			dragstart: (point) => {
 				let ship = h.getShip(point, this.current_player.gameboard)
 
 	      if (ship instanceof Model.Ship) {
@@ -167,14 +160,14 @@ export class Battleship {
 	      	EventBus.emit("set-data", { len, dir, shipId })
 	      }
 			},
-			dragOver: (cells) => {
+			dragover: (cells) => {
 				if (this.current_player.gameboard.validPlace(cells)) {
 					EventBus.emit("color", "lightgreen")
 				} else {
 					EventBus.emit("color", "red")
 				}
 			},
-			dropReplace: async ({ id, newLocation }) => {
+			drop: async ({ id, newLocation }) => {
 				let ship = h.getShipById(id, this.current_player.gameboard)
 				let oldLocation = ship.location
 				

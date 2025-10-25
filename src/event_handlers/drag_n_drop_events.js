@@ -8,11 +8,10 @@ const DragNdropEvents = (() => {
 	let activeCells = [];
 	let color;
 
-	EventBus.subscribe("dragDrop-on", () => mount())
+	EventBus.subscribe("dragstart-on", () => mount())
 	EventBus.subscribe("color", (c) => color = c) 
-	EventBus.subscribe("dragDrop-off", () => {
-		unmount()
-	})
+	EventBus.subscribe("dragstart-off", () => unmount())
+
 	EventBus.subscribe("set-data", ({ len, dir, shipId }) => {
 		length = len
 		direction = dir
@@ -25,7 +24,7 @@ const DragNdropEvents = (() => {
 	const dragstart = (e) => {
     if (e.target.hasAttribute("drag")) {
       let point = evh.parseCoordinates(e.target)
-     		EventBus.emit("dragPoint", point)
+     		EventBus.emit("dragstart", point)
     }
 	}
 
@@ -53,7 +52,7 @@ const DragNdropEvents = (() => {
 				activeCells.push(cell)
 		}
 		let coordinates = activeCells.map(cell => evh.parseCoordinates(cell))
-		EventBus.emit("dragOver", coordinates)
+		EventBus.emit("dragover", coordinates)
 		activeCells.forEach(cell => cell.style.cssText = `border: 2px solid ${color}`)
 	}
 	const drop = (e) => {
@@ -65,7 +64,7 @@ const DragNdropEvents = (() => {
 		activeCells.forEach(cell => {
 			newLocation.push(evh.parseCoordinates(cell))
 		})
-		EventBus.emit("dropReplace", { id, newLocation })
+		EventBus.emit("drop", { id, newLocation })
 	}
 
 	const listeners = {
