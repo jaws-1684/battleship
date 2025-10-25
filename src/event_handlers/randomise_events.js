@@ -1,6 +1,6 @@
 import { EventBus } from "../event_bus.js"
 
-export const RandomiseEvents = (() => {
+const RandomiseEvents = (() => {
 	EventBus.subscribe("randomise-on", () => mount())
 	EventBus.subscribe("randomise-off", () => unmount())
 	
@@ -21,3 +21,4 @@ export const RandomiseEvents = (() => {
 })()
 
 
+export default RandomiseEvents

@@ -1,6 +1,6 @@
 import { EventBus } from "../event_bus.js"
 
-export const StartEvents = (() => {
+const StartEvents = (() => {
   EventBus.subscribe("start-on", () => mount())
   EventBus.subscribe("start-off", () => unmount())
   
@@ -34,3 +34,5 @@ export const StartEvents = (() => {
     el.removeEventListener("click", handler)
   }
 })()
+
+export default StartEvents

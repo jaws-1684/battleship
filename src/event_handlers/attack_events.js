@@ -1,7 +1,7 @@
 import { evh } from "./event_helpers.js"
 import { EventBus } from "../event_bus.js"
 
-export const AttackEvents = (() => {
+const AttackEvents = (() => {
 	EventBus.subscribe("attack-on", () => mount())
 	EventBus.subscribe("attack-off", () => {
 		unmount()
@@ -27,3 +27,5 @@ export const AttackEvents = (() => {
 		el.removeEventListener("click", handler)
 	}
 })()
+
+export default AttackEvents

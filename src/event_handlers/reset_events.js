@@ -1,6 +1,6 @@
 import { EventBus } from "../event_bus.js"
 
-export const ResetEvents = (() => {
+const ResetEvents = (() => {
 	EventBus.subscribe("reset-on", () => mount())
 	EventBus.subscribe("reset-off", () => unmount())
 	
@@ -21,3 +21,4 @@ export const ResetEvents = (() => {
 })()
 
 
+export default ResetEvents

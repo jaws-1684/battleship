@@ -1,6 +1,6 @@
 import { EventBus } from "../event_bus.js"
 
-export const ReadyEvents = (() => {
+const ReadyEvents = (() => {
   EventBus.subscribe("ready-on", () => mount())
   EventBus.subscribe("ready-off", () => unmount())
 
@@ -18,3 +18,5 @@ export const ReadyEvents = (() => {
     el.remove()
   }
 })()
+
+export default ReadyEvents

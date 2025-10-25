@@ -1,7 +1,7 @@
 import { evh } from "./event_helpers.js"
 import { EventBus } from "../event_bus.js"
 
-export const DragactiveCells = (() => {
+const DragNdropEvents = (() => {
 	let length;
 	let direction;
 	let id;
@@ -31,13 +31,12 @@ export const DragactiveCells = (() => {
 
 	const dragover = (e) => {
 		let target = e.target
-		let parent = target.parentElement.parentElement
   	e.preventDefault();
 
   	if (target.hasAttribute("drag") || !target.classList.contains("cell")) {
   			return
   	}
-		
+		let parent = target.parentElement.parentElement
   	clearCells()
 
 		let [x, y] = evh.parseCoordinates(target)
@@ -126,3 +125,5 @@ export const DragactiveCells = (() => {
 		}	
   }
 })()
+
+export default DragNdropEvents
