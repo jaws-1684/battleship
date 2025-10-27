@@ -26,7 +26,7 @@ module.exports = {
       },
       // webpack.config.js
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
         type: "asset/resource",
       },
 
