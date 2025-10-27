@@ -1,8 +1,8 @@
 import { h } from "../../helpers/helpers.js";
 import { _ } from "../../helpers/underscore.js";
-import DefaultAction from "./default_action.js";
-import RotateAction from "./rotate_action.js";
 import { EventBus } from "../../event_bus.js";
+import { Param } from "../../param.js";
+import DefaultAction from "./default_action.js";
 
 class DragNDropAction extends DefaultAction {
   static dragstart(point) {
@@ -11,19 +11,21 @@ class DragNDropAction extends DefaultAction {
     if (ship) {
       let len = Number(ship.length);
       let dir = ship.direction;
-      let shipId = ship.id;
+      let id = ship.id;
       this.c.current_player.gameboard.clear(ship.location);
 
-      EventBus.emit("set-data", { len, dir, shipId });
+      Param.bulkSet({
+        shipLength: len,
+        shipId: id,
+        shipDirection: dir
+      })
+      // EventBus.emit("set-data", { len, dir, shipId });
     }
   }
 
   static dragover(cells) {
-    if (this.c.current_player.gameboard.validPlace(cells)) {
-      EventBus.emit("color", "lightgreen");
-    } else {
-      EventBus.emit("color", "red");
-    }
+    let color = this.c.current_player.gameboard.validPlace(cells) ? "lightgreen" : "red"
+    Param.setParam("dragOverColor", color)
   }
   static async drop(id, newLocation) {
     let ship = h.getShipById(id, this.c.current_player.gameboard);
@@ -32,8 +34,6 @@ class DragNDropAction extends DefaultAction {
     if (this.c.current_player.gameboard.place(newLocation, ship)) {
       ship.location = newLocation;
       _.prepend("board", { gameboard: this.c.current_player.gameboard });
-      this.restart();
-      RotateAction.restart();
     } else {
       this.c.current_player.gameboard.place(oldLocation, ship);
     }

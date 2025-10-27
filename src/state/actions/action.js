@@ -3,6 +3,7 @@ import DragNDropAction from "./drag_n_drop_action.js";
 import RandomiseAction from "./randomise_action.js";
 import RotateAction from "./rotate_action.js";
 import ResetAction from "./reset_action.js";
+import StartAction from "./start_action.js";
 
 let Action = {};
 Action.Attack = AttackAction;
@@ -10,5 +11,6 @@ Action.DragNDrop = DragNDropAction;
 Action.Randomise = RandomiseAction;
 Action.Rotate = RotateAction;
 Action.Reset = ResetAction;
+Action.Start = StartAction;
 
 export { Action };

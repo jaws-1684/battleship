@@ -7,7 +7,7 @@ const AttackEvents = (() => {
     unmount();
   });
 
-  let el = document.querySelector(".game");
+  let el = document.querySelector(".battlefield_container.opponent");
   const handler = (e) => {
     let target = e.target;
     if (evh.validTarget(target)) {

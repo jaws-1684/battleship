@@ -24,7 +24,7 @@ const StartEvents = (() => {
   const mount = () => {
     el = document.querySelector("#startGame");
     panel = document.querySelector(".start-game");
-    radioButtons = document.querySelectorAll('input[name="player"]');
+    radioButtons = document.querySelectorAll('input[name="player"]')
     panel.classList.remove("hidden");
     el.addEventListener("click", handler);
   };

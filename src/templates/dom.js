@@ -25,7 +25,7 @@ export const DOM = ((doc) => {
   const addPanel = () => {
     let panel = doc.createElement("div");
     panel.innerHTML = `
-            <form>
+            <form style="pointer-events: auto;">
                 <fieldset>
                     <legend>Opponent</legend>
                     <div>
@@ -44,10 +44,7 @@ export const DOM = ((doc) => {
             </form>`;
     panel.classList.add("start-game", "hidden");
     if (!doc.querySelector(".start-game")) {
-      game.querySelectorAll(".battlefield_container")[1].append(panel);
-    } else {
-      doc.querySelector(".start-game").textContent = "";
-      game.querySelectorAll(".battlefield_container")[1].append(panel);
+       game.querySelector(".battlefield_container.opponent").append(panel);
     }
   };
   const addFightPanel = () => {
@@ -62,7 +59,7 @@ export const DOM = ((doc) => {
             </form>`;
     panel.classList.add("ready-game");
     if (!doc.querySelector(".ready-game")) {
-      game.querySelectorAll(".battlefield_container")[1].append(panel);
+      game.querySelector(".battlefield_container.opponent").append(panel);
     }
   };
 

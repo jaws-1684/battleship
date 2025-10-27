@@ -4,42 +4,35 @@ import { Header } from "./header.js";
 
 export const Game = ((doc) => {
   const game = doc.querySelector(".game");
-  const render = (gameboards, attributes = "self-opponent") => {
-    let children = Array.from(game.children);
-    if (children.length > 0) {
-      children.forEach((child) => child.remove());
-    }
-    let attr = attributes.split("-");
+  const battlefield_container_self = doc.querySelector(".battlefield_container.self")
+  const battlefield_container_opponent = doc.querySelector(".battlefield_container.opponent")
+  const battlefield_self = doc.querySelector(".battlefield.battlefield_self")
+  const battlefield_opponent = doc.querySelector(".battlefield.battlefield_opponent")
+
+  const addHeaders = () => {
+    [battlefield_container_self, battlefield_container_opponent].forEach(container => {
+      Header.col(container);
+      Header.row(container);
+    })
+  }
+
+  addHeaders()
+  
+  const render = (...gameboards) => {
+    let types = "self-opponent".split("-")
     let i = 0;
-    gameboards.forEach((gameboard) => {
-      game.append(buildBoard(gameboard, attr[i]));
-      i++;
-    });
+    [battlefield_self, battlefield_opponent].forEach(container => {
+      buildBattlefield(container, gameboards[i], types[i])
+      i++
+    })
+  }
+  const buildBattlefield = (container, gameboard, type) => {
+    container.textContent = ""
+    Grid.build(container, gameboard.board, type)
+    Ships.place(Object.values(gameboard.ships), container, type);
   };
-  const buildBoard = (gameboard, type) => {
-    let board = gameboard.board;
-    let ships = Object.values(gameboard.ships);
-
-    let container = doc.createElement("div");
-
-    container.setAttribute("class", `battlefield_container`);
-    Header.col(container);
-    Header.row(container);
-
-    let grid = Grid.build(board, type);
-    Ships.place(ships, grid, type);
-
-    container.append(grid);
-    let desp = document.createElement("p");
-    desp.textContent = type === "self" ? "Your board" : "Opponent's board";
-    desp.classList.add("desp");
-    container.append(desp);
-    return container;
-  };
-  const clearAndPrepend = (gameboard, type = "self") => {
-    let self = doc.querySelectorAll(".battlefield_container")[0];
-    self.remove();
-    game.prepend(buildBoard(gameboard, type));
+  const clearAndPrepend = (gameboard) => {
+    buildBattlefield(battlefield_self, gameboard, "self")
   };
   return { render, clearAndPrepend };
 })(document);

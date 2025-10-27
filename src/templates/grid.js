@@ -1,8 +1,5 @@
 export const Grid = ((doc) => {
-  const build = (array, type) => {
-    let grid = doc.createElement("div");
-    grid.setAttribute("class", `battlefield battlefield_${type}`);
-
+  const build = (container, array, type) => {
     for (let i = 0; i < array.length; i++) {
       let row = doc.createElement("div");
       row.setAttribute("class", "row");
@@ -16,9 +13,8 @@ export const Grid = ((doc) => {
 
         row.append(col);
       }
-      grid.append(row);
+      container.append(row);
     }
-    return grid;
   };
   const addTag = (col, data) => {
     col.classList.add("col", "cell");

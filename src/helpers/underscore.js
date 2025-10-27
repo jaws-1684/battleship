@@ -6,11 +6,8 @@ export const _ = {
     let gameboards;
     switch (what) {
       case "game":
-        gameboards = [
-          obj.current_player.gameboard,
-          obj.current_player.opponent.gameboard,
-        ];
-        Game.render(gameboards);
+        Game.render(obj.current_player.gameboard,
+          obj.current_player.opponent.gameboard);
         break;
       case "panel":
         DOM.addPanel();

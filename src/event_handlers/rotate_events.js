@@ -6,21 +6,21 @@ const RotateEvents = (() => {
   EventBus.subscribe("rotate-off", () => {
     unmount();
   });
-  let cells;
+  let container = document.querySelector(".battlefield_container.self");
   const rotate = (e) => {
     e.preventDefault();
     let target = e.target;
-    let point = evh.parseCoordinates(target);
-    EventBus.emit("rotate", point);
-    return;
+    if (target.classList.contains("rotatable")) {
+      let point = evh.parseCoordinates(target);
+      EventBus.emit("rotate", point);
+    }
   };
 
   const mount = () => {
-    cells = document.querySelectorAll(".cell.rotatable");
-    cells.forEach((cell) => cell.addEventListener("click", rotate));
+    container.addEventListener("click", rotate);
   };
   const unmount = () => {
-    cells.forEach((cell) => cell.removeEventListener("click", rotate));
+    container.removeEventListener("click", rotate);
   };
 })();
 

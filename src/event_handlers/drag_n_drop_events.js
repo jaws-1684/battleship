@@ -1,26 +1,18 @@
 import { evh } from "./event_helpers.js";
 import { EventBus } from "../event_bus.js";
+import { Param } from "../param.js";
 
 const DragNdropEvents = (() => {
-  let length;
-  let direction;
-  let id;
   let activeCells = [];
-  let color;
 
   EventBus.subscribe("dragstart-on", () => mount());
   EventBus.subscribe("color", (c) => (color = c));
   EventBus.subscribe("dragstart-off", () => unmount());
 
-  EventBus.subscribe("set-data", ({ len, dir, shipId }) => {
-    length = len;
-    direction = dir;
-    id = shipId;
-  });
-
-  let container = document.querySelector(".game");
-  let el;
+  let container = document.querySelector(".battlefield_container.self");
+  // let el;
   const dragstart = (e) => {
+
     if (e.target.hasAttribute("drag")) {
       let point = evh.parseCoordinates(e.target);
       EventBus.emit("dragstart", point);
@@ -34,17 +26,19 @@ const DragNdropEvents = (() => {
     if (target.hasAttribute("drag") || !target.classList.contains("cell")) {
       return;
     }
+    let [shipLength, shipDirection, color] = Param.bulkGet("shipLength", "shipDirection", "dragOverColor") 
+
     let parent = target.parentElement.parentElement;
     clearCells();
 
     let [x, y] = evh.parseCoordinates(target);
 
-    switch (direction) {
+    switch (shipDirection) {
       case "vertical":
-        calculateVerticalPos(parent, x, y);
+        calculateVerticalPos(parent, shipLength, x, y);
         break;
       case "horizontal":
-        calculateHorizontalPos(parent, x, y);
+        calculateHorizontalPos(parent, shipLength, x, y);
         break;
       default:
         activeCells.push(target);
@@ -58,10 +52,14 @@ const DragNdropEvents = (() => {
   };
   const drop = (e) => {
     e.preventDefault();
-    let newLocation = [];
-    if (activeCells.length !== length) {
+
+    let shipLength = Param.getParam("shipLength")
+    if (activeCells.length !== shipLength) {
       return;
     }
+    let id = Param.getParam("shipId")
+    let newLocation = [];
+
     activeCells.forEach((cell) => {
       newLocation.push(evh.parseCoordinates(cell));
     });
@@ -75,15 +73,15 @@ const DragNdropEvents = (() => {
   };
 
   const mount = () => {
-    el = container.querySelector(".battlefield_self");
+    // el = container.querySelector(".battlefield_self");
     Object.keys(listeners).forEach((key) =>
-      el.addEventListener(key, listeners[key]),
+      container.addEventListener(key, listeners[key]),
     );
   };
   const unmount = () => {
     activeCells = [];
     Object.keys(listeners).forEach((key) =>
-      el.removeEventListener(key, listeners[key]),
+      container.removeEventListener(key, listeners[key]),
     );
   };
   const validCoordinates = (i, j) => {
@@ -95,7 +93,7 @@ const DragNdropEvents = (() => {
       cell.style.cssText = "";
     }
   };
-  const calculateHorizontalPos = (parentNode, x, y) => {
+  const calculateHorizontalPos = (parentNode, length, x, y) => {
     let rows = Array.from(parentNode.children);
     let cells = Array.from(rows[x].children);
     for (let i = 0; i < length; i++) {
@@ -111,7 +109,7 @@ const DragNdropEvents = (() => {
       activeCells.push(cell);
     }
   };
-  const calculateVerticalPos = (parentNode, x, y) => {
+  const calculateVerticalPos = (parentNode, length, x, y) => {
     let rows = Array.from(parentNode.children);
     for (let i = 0; i < length; i++) {
       if (!validCoordinates(x + i, y)) {
