@@ -6,8 +6,9 @@
     <title>Battleship</title>
   </head>
   <body>
-    <div class="header">
-      <h1>Battleship</h1>
+   <div class="container">
+      <div class="header">
+        <h1>Battleship</h1>
       <div class="messages"></div>
     </div>
     <div class="b-wrapper">
@@ -25,10 +26,26 @@
         <button id="randomise">Randomise 🗘</button>
         <button id="reset" class="hidden">Reset ↩</button>
       </div>
+       <div class="rules">
+        <p>To change the ship location you can drag and then drop the ship at the new location!</p>
+        <p>To rotate the ship you can click on the head or tail depending on the direction you want it to rotate!</p>
+      </div>
+    </div>
+    <div class="description">
+      <h2 id="Description">Description</h2>
+      The <a href="https://en.wikipedia.org/wiki/Battleship_(game)">game</a> is played on two grids, one for each player. The grids are square, 10×10, and the individual squares in the grid are identified by letter and number.On one grid the player arranges ships and records the shots by the opponent. On the other grid, the player records their own shots.
+      
+    </div>
+    <div class="footer">
+      <p>© 2025 Battleship. All rights reserved.</p>
+      <p>Github: <a href="https://github.com/jaws-1684/battleship">jaws-1684</a></p>
+      <p>Design inspired from: <a href="https://battleship-game.org/en/">battleship-game.org</a></p>
     </div>
     <div class="pass-device hidden">
       <p>Please wait...Pass the device</p>
       <p class="time"></p>
     </div>
+   </div>
+
   </body>
 </html>

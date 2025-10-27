@@ -63,7 +63,7 @@ h6 {
 }
 
 body {
-  padding: 2% clamp(10%, 20%, 30%) 2% clamp(10%, 20%, 30%);
+  padding: 0 clamp(10%, 20%, 30%) 0 clamp(10%, 20%, 30%);
 }
 .messages {
   height: 4vh;
@@ -121,6 +121,7 @@ body {
   flex-direction: column;
   width: fit-content;
   border: 0.00125rem solid rgb(160, 160, 255);
+  background: white;
 }
 
 .row {
@@ -214,7 +215,7 @@ body {
 
 .start-game,
 .ready-game {
-  grid-column: 2 / 12;
+  grid-column: 2 / 11;
   grid-row: 2 / 11;
   position: relative;
   background: rgba(255, 255, 255, 0.8);
@@ -286,6 +287,27 @@ div[drag="true"] {
   align-items: center;
 }
 
+.rules > p {
+  margin-top: 2%;
+  padding: 5px;
+  background: lightgreen;
+  border-radius: 5px;
+  color: green;
+}
+.container {
+  background: white;
+  padding: 5% 5%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.description {
+  flex-grow: 1;
+}
+.footer {
+  margin-top: 2%;
+  border-top: 1px solid gray;
+}
 @media screen and (max-width: 768px) {
   body {
     padding: 2% 10% 0 10%;

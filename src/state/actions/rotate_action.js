@@ -7,6 +7,9 @@ class RotateAction extends DefaultAction {
     let ship = h.getShip(point, this.c.current_player.gameboard);
     if (ship && this.c.current_player.gameboard.rotateShip(ship.id, point)) {
       _.prepend("board", { gameboard: this.c.current_player.gameboard });
+       _.message("Rotated!")
+    } else {
+      _.message("Cannot rotate!")
     }
   }
   static fns = {

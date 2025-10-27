@@ -34,6 +34,7 @@ class DragNDropAction extends DefaultAction {
     if (this.c.current_player.gameboard.place(newLocation, ship)) {
       ship.location = newLocation;
       _.prepend("board", { gameboard: this.c.current_player.gameboard });
+      _.message("Position updated!")
     } else {
       this.c.current_player.gameboard.place(oldLocation, ship);
     }

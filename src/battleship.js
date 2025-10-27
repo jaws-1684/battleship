@@ -8,7 +8,7 @@ export class Battleship {
   }
 
   init() {
-    _.message("Start the game");
+    _.message("Place you ships and then start the game");
     this.placeShips(this.player1, this.player2);
     _.render("game", { current_player: this.current_player });
     _.render("panel");
@@ -24,6 +24,7 @@ export class Battleship {
     this.init();
   }
   start() {
+    _.message("Fire a missile");
     State.Run.on(this);
   }
 

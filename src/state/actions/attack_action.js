@@ -4,7 +4,6 @@ import DefaultAction from "./default_action.js";
 
 class AttackAction extends DefaultAction {
   static async attack(point) {
-    _.message("Choose a target");
     let attack = this.c.current_player.opponent.gameboard.receiveAttack(
       ...point,
     );
