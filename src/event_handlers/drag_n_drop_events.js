@@ -12,20 +12,22 @@ const DragNdropEvents = (() => {
   let container = document.querySelector(".battlefield_container.self");
   // let el;
   const dragstart = (e) => {
-
-    if (e.target.hasAttribute("drag")) {
+    console.log(e)
+    e.dataTransfer.setData('text', 'anything');
+    e.dataTransfer.setDragImage(new Image(), 0, 0);  
+    if (e.target.hasAttribute("draggable")) {
       let point = evh.parseCoordinates(e.target);
       EventBus.emit("dragstart", point);
     }
   };
 
   const dragover = (e) => {
-    let target = e.target;
     e.preventDefault();
 
-    if (target.hasAttribute("drag") || !target.classList.contains("cell")) {
+    if (e.target.hasAttribute("draggable") || !e.target.classList.contains("cell")) {
       return;
     }
+    let target = e.target;
     let [shipLength, shipDirection, color] = Param.bulkGet("shipLength", "shipDirection", "dragOverColor") 
 
     let parent = target.parentElement.parentElement;
@@ -51,7 +53,8 @@ const DragNdropEvents = (() => {
     );
   };
   const drop = (e) => {
-    e.preventDefault();
+    if(e.preventDefault) { e.preventDefault(); }
+    if(e.stopPropagation) { e.stopPropagation(); }
 
     let shipLength = Param.getParam("shipLength")
     if (activeCells.length !== shipLength) {
