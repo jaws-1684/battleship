@@ -108,15 +108,15 @@ Builds the project and pushes the `dist/` folder to the `gh-pages` branch automa
 battleship/
 ├── src/
 │   ├── assets/             
-│   ├── event_handlers/     # -> attack, drag, drop, rotate, reset… iifes
+│   ├── event_handlers/     [attack, drag, drop, rotate, reset… iifes]
 │   ├── helpers/            
-│   ├── models/             # -> ship, gameboard, player, computer classes
-│   ├── state/              # -> state and action handlers
-│   ├── templates/          # -> rendering helpers
-│   ├── battleship.js       # -> main controller
-│   ├── event_bus.js        # -> pub/sub event bus
-│   ├── param.js            # -> shared param store
-│   ├── index.js            # -> entry point
+│   ├── models/             [ship, gameboard, player, computer classes]
+│   ├── state/              [state and action handlers]
+│   ├── templates/          [rendering helpers]
+│   ├── battleship.js       [main controller]
+│   ├── event_bus.js        [pub/sub event bus]
+│   ├── param.js            [shared param store]
+│   ├── index.js            [entry point]
 │   ├── styles.css          
 │   └── template.html       
 ├── test/                  
