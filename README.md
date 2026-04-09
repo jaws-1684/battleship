@@ -163,4 +163,4 @@ The following resources proved to be quite helpful:
 * [Jest](https://jestjs.io)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [Battleship on Wikipedia](https://en.wikipedia.org/wiki/Battleship_(game)
+* [Battleship on Wikipedia](https://en.wikipedia.org/wiki/Battleship_(game))
