@@ -1,5 +1,5 @@
 # battleship.js - Battleship 
-<a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+<a href="https://jaws-1684.github.io/battleship/">View Demo</a>
 
 ## Description
 The *idea* behind this project is to experiment and practice test driven development and object oriented programming in javascript.
